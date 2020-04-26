@@ -4,17 +4,21 @@ from PIL import Image, ImageTk
 import os
 
 def insertfiles():
-    # lst.delete(0, tk.END)
+    "loads the list of files in the directory"
     for filename in glob.glob("*.png"):
         lst.insert(tk.END, filename)
 
+
 def delete_item(event):
+    "Deletes a file in the list: called by lst.bind('<Control-d>', delete_item)"
     n = lst.curselection()
     os.remove(lst.get(n))
     lst.delete(n)
 
 
 def get_window_size():
+    "Returns the width and height of the screen to set images and canvas alike it: called by root.bind <Configure>"
+    root_w = root.winfo_width()
     if root.winfo_width() > 200 and root.winfo_height() >30:
         w = root.winfo_width() - 200
         h = root.winfo_height() - 30
@@ -25,6 +29,7 @@ def get_window_size():
 
 
 def showimg(event):
+    "takes the selected image to show it, called by root.bind <Configure> and lst.bind <<ListboxSelect>>"
     n = lst.curselection()
     filename = lst.get(n)
     im = Image.open(filename)
